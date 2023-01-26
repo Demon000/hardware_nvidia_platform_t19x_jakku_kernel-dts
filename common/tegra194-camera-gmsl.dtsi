@@ -1,0 +1,131 @@
+/*
+ * Copyright (c) 2021-2022, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#define CAM_I2C_MUX 	TEGRA194_AON_GPIO(CC, 3)
+
+/ {
+	tegra-capture-vi  {
+		num-channels = <1>;
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				vi_in0: endpoint {
+					port-index = <0>;
+					bus-width = <4>;
+					remote-endpoint = <&csi_out0>;
+				};
+			};
+		};
+	};
+
+	host1x@13e00000 {
+		nvcsi@15a00000 {
+			num-channels = <1>;
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			channel@0 {
+				reg = <0>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@0 {
+						reg = <0>;
+						csi_in0: endpoint@0 {
+							port-index = <0>;
+							bus-width = <4>;
+							remote-endpoint = <&max96712_out0>;
+						};
+					};
+
+					port@1 {
+						reg = <1>;
+						csi_out0: endpoint@1 {
+							remote-endpoint = <&vi_in0>;
+						};
+					};
+				};
+			};
+		};
+	};
+
+	cam_i2cmux {
+		compatible = "i2c-mux-gpio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		mux-gpios = <&tegra_aon_gpio CAM_I2C_MUX GPIO_ACTIVE_HIGH>;
+		i2c-parent = <&cam_i2c>;
+
+		i2c@0 {
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			gmsl0: gmsl-deserializer@27 {
+				compatible = "maxim,max96712";
+				reg = <0x27>;
+
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@4 {
+						reg = <4>;
+						max96712_out0: endpoint {
+							clock-lanes = <0>;
+							data-lanes = <1 2 3 4>;
+							remote-endpoint = <&csi_in0>;
+						};
+					};
+				};
+			};
+		};
+	};
+
+	tegra-camera-platform {
+		compatible = "nvidia, tegra-camera-platform";
+
+		num_csi_lanes = <4>;
+		max_lane_speed = <1500000>;
+		min_bits_per_pixel = <10>;
+		vi_peak_byte_per_pixel = <2>;
+		vi_bw_margin_pct = <25>;
+		max_pixel_rate = <7500000>;
+		isp_peak_byte_per_pixel = <5>;
+		isp_bw_margin_pct = <25>;
+
+		modules {
+			module0 {
+				badge = "gmsl-deserializer";
+				position = "front";
+				orientation = "1";
+				drivernode0 {
+					pcl_id = "v4l2_sensor";
+					devname = "gmsl-deserializer 9-0027";
+					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/gmsl-deserializer@27";
+				};
+			};
+		};
+	};
+};
