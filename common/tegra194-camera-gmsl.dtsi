@@ -19,7 +19,7 @@
 #define CAM0_PWDN	TEGRA194_MAIN_GPIO(P, 4)
 
 / {
-/*
+#if 1
 	tegra-capture-vi  {
 		num-channels = <1>;
 
@@ -130,8 +130,7 @@
 			};
 		};
 	};
-*/
-
+#else
 	tegra-capture-vi  {
 		num-channels = <1>;
 		ports {
@@ -446,4 +445,5 @@
 			};
 		};
 	};
+#endif
 };
