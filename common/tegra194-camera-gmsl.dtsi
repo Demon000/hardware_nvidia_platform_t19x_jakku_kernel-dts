@@ -18,6 +18,7 @@
 #define CAM_I2C_MUX 	TEGRA194_AON_GPIO(CC, 3)
 
 / {
+/*
 	tegra-capture-vi  {
 		num-channels = <1>;
 
@@ -128,4 +129,5 @@
 			};
 		};
 	};
+*/
 };
