@@ -83,12 +83,6 @@
 			reg = <0>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-		};
-
-		i2c@1 {
-			reg = <0>;
-			#address-cells = <1>;
-			#size-cells = <0>;
 
 			gmsl0: gmsl-deserializer@27 {
 				compatible = "maxim,max96712";
@@ -108,6 +102,12 @@
 					};
 				};
 			};
+		};
+
+		i2c@1 {
+			reg = <1>;
+			#address-cells = <1>;
+			#size-cells = <0>;
 		};
 	};
 
@@ -130,8 +130,8 @@
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
-					devname = "gmsl-deserializer 10-0027";
-					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@1/gmsl-deserializer@27";
+					devname = "gmsl-deserializer 9-0027";
+					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/gmsl-deserializer@27";
 				};
 			};
 		};
