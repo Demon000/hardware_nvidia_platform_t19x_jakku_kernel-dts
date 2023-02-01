@@ -76,6 +76,8 @@
 			compatible = "maxim,max96712";
 			reg = <0x27>;
 
+			enable-gpios = <&tegra_main_gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
+
 			ports {
 				#address-cells = <1>;
 				#size-cells = <0>;
