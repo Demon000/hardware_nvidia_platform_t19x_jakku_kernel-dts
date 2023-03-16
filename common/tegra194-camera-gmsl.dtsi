@@ -16,6 +16,8 @@
  */
 #include <dt-bindings/media/camera.h>
 
+#define CAM0_PWDN	TEGRA194_MAIN_GPIO(P, 4)
+
 #define BROKEN_I2C_FIX
 
 / {
@@ -74,6 +76,8 @@
 				compatible = "sony,imx219";
 				/* I2C device address */
 				reg = <0x10>;
+
+				reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
 
 				/* V4L2 device node location */
 				devnode = "video0";
