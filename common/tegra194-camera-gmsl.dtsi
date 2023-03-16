@@ -19,107 +19,6 @@
 #define CAM0_PWDN	TEGRA194_MAIN_GPIO(P, 4)
 
 / {
-#if 1
-	tegra-capture-vi  {
-		num-channels = <1>;
-
-		ports {
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			port@0 {
-				reg = <0>;
-				vi_in0: endpoint {
-					port-index = <0>;
-					bus-width = <4>;
-					remote-endpoint = <&csi_out0>;
-				};
-			};
-		};
-	};
-
-	host1x@13e00000 {
-		nvcsi@15a00000 {
-			num-channels = <1>;
-
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			channel@0 {
-				reg = <0>;
-				ports {
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-						csi_in0: endpoint@0 {
-							port-index = <0>;
-							bus-width = <4>;
-							remote-endpoint = <&max96712_out0>;
-						};
-					};
-
-					port@1 {
-						reg = <1>;
-						csi_out0: endpoint@1 {
-							remote-endpoint = <&vi_in0>;
-						};
-					};
-				};
-			};
-		};
-	};
-
-	i2c@3180000 {
-		gmsl0: gmsl-deserializer@27 {
-			compatible = "maxim,max96712";
-			reg = <0x27>;
-
-			enable-gpios = <&tegra_main_gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
-
-			ports {
-				#address-cells = <1>;
-				#size-cells = <0>;
-
-				port@0 {
-					reg = <0>;
-					max96712_out0: endpoint {
-						clock-lanes = <0>;
-						data-lanes = <1 2 3 4>;
-						remote-endpoint = <&csi_in0>;
-					};
-				};
-			};
-		};
-	};
-
-	tegra-camera-platform {
-		compatible = "nvidia, tegra-camera-platform";
-
-		num_csi_lanes = <4>;
-		max_lane_speed = <1500000>;
-		min_bits_per_pixel = <10>;
-		vi_peak_byte_per_pixel = <2>;
-		vi_bw_margin_pct = <25>;
-		max_pixel_rate = <7500000>;
-		isp_peak_byte_per_pixel = <5>;
-		isp_bw_margin_pct = <25>;
-
-		modules {
-			module0 {
-				badge = "gmsl-deserializer";
-				position = "front";
-				orientation = "1";
-				drivernode0 {
-					pcl_id = "v4l2_sensor";
-					devname = "gmsl-deserializer 9-0027";
-					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/gmsl-deserializer@27";
-				};
-			};
-		};
-	};
-#else
 	tegra-capture-vi  {
 		num-channels = <1>;
 		ports {
@@ -434,5 +333,4 @@
 			};
 		};
 	};
-#endif
 };
