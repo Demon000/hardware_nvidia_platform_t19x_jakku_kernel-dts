@@ -16,6 +16,8 @@
  */
 #include <dt-bindings/media/camera.h>
 
+#define BROKEN_I2C_FIX
+
 / {
 	tegra-capture-vi  {
 		num-channels = <1>;
@@ -62,8 +64,12 @@
 		};
 	};
 
+#if defined(BROKEN_I2C_FIX)
+	i2c@c240000 {
+#else
 	cam_i2cmux {
 		i2c_0: i2c@0 {
+#endif
 			imx219_cam0: rbpcv2_imx219_a@10 {
 				compatible = "sony,imx219";
 				/* I2C device address */
@@ -419,7 +425,9 @@
 					};
 				};
 			};
+#if !defined(BROKEN_I2C_FIX)
 		};
+#endif
 	};
 };
 / {
@@ -476,8 +484,13 @@
 				orientation = "1";
 				cam_module0_drivernode0: drivernode0 {
 					pcl_id = "v4l2_sensor";
+#if defined(BROKEN_I2C_FIX)
+					devname = "imx219 1-0010";
+					proc-device-tree = "/proc/device-tree/i2c@c240000/rbpcv2_imx219_a@10";
+#else
 					devname = "imx219 9-0010";
 					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/rbpcv2_imx219_a@10";
+#endif
 				};
 			};
 		};
