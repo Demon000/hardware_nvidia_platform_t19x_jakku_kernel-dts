@@ -450,6 +450,7 @@
 						reg = <6>;
 						max96712_out0: endpoint {
 							remote-endpoint = <&csi_in0>;
+							port-index = <0>;
 							clock-lanes = <0>;
 							data-lanes = <1 2>;
 							clock-noncontinuous;
@@ -477,6 +478,7 @@
 						reg = <1>;
 						max96717_in0: endpoint {
 							remote-endpoint = <&imx219_out0>;
+							port-index = <0>;
 						};
 					};
 				};
