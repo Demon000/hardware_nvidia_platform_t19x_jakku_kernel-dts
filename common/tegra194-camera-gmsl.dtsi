@@ -77,6 +77,9 @@
 				/* I2C device address */
 				reg = <0x10>;
 
+				nv,skip-notifier;
+				nv,skip-link;
+
 				reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
 
 				/* V4L2 device node location */
@@ -462,6 +465,9 @@
 			gmsl_serializer: gmsl-serializer@40 {
 				compatible = "maxim,max96717";
 				reg = <0x40>;
+
+				nv,skip-notifier;
+				nv,skip-link;
 
 				ports {
 					#address-cells = <1>;
