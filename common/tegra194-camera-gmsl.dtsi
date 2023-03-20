@@ -20,7 +20,7 @@
 #define CAM0_RESET	TEGRA194_MAIN_GPIO(P, 5)
 
 #define BROKEN_I2C_FIX
-// #define CAMERA_OVX3A
+#define CAMERA_OVX3A
 
 / {
 	tegra-capture-vi  {
