@@ -25,11 +25,14 @@
 / {
 	tegra-capture-vi  {
 		num-channels = <1>;
+
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
-			vi_port0: port@0 {
+
+			port@0 {
 				reg = <0>;
+
 				vi_in0: endpoint {
 					port-index = <0>;
 					bus-width = <2>;
@@ -44,21 +47,27 @@
 			num-channels = <1>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			csi_chan0: channel@0 {
+
+			channel@0 {
 				reg = <0>;
+
 				ports {
 					#address-cells = <1>;
 					#size-cells = <0>;
+
 					port@0 {
 						reg = <0>;
+
 						csi_in0: endpoint@0 {
 							port-index = <0>;
 							bus-width = <2>;
 							remote-endpoint = <&max96712_out0>;
 						};
 					};
+
 					port@1 {
 						reg = <1>;
+
 						csi_out0: endpoint@1 {
 							remote-endpoint = <&vi_in0>;
 						};
@@ -584,6 +593,7 @@
 					#size-cells = <0>;
 					port@0 {
 						reg = <0>;
+
 						imx219_out0: endpoint {
 							port-index = <0>;
 							bus-width = <2>;
@@ -612,6 +622,7 @@
 
 					port@6 {
 						reg = <6>;
+
 						max96712_out0: endpoint {
 							remote-endpoint = <&csi_in0>;
 							port-index = <0>;
@@ -636,6 +647,7 @@
 
 					port@1 {
 						reg = <1>;
+
 						max96717_in0: endpoint {
 #if defined(CAMERA_OVX3A)
 							remote-endpoint = <&ox03a_out0>;
@@ -647,6 +659,7 @@
 
 					port@3 {
 						reg = <3>;
+
 						max96717_out0: endpoint {
 							remote-endpoint = <&max96712_in0>;
 							port-index = <0>;
