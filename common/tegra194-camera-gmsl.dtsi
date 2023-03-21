@@ -225,7 +225,7 @@
 						reg = <0>;
 						ox03a_out0: endpoint {
 							port-index = <0>;
-							bus-width = <2>;
+							bus-width = <4>;
 							remote-endpoint = <&max96717_in0>;
 						};
 					};
