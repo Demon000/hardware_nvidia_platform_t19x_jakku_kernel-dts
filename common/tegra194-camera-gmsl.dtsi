@@ -235,6 +235,7 @@
 						ox03a_out0: endpoint {
 							port-index = <0>;
 							bus-width = <4>;
+							data-lanes = <1 2 3 4>;
 							remote-endpoint = <&max96717_in0>;
 						};
 					};
@@ -597,6 +598,7 @@
 						imx219_out0: endpoint {
 							port-index = <0>;
 							bus-width = <2>;
+							data-lanes = <1 2>;
 							remote-endpoint = <&max96717_in0>;
 						};
 					};
