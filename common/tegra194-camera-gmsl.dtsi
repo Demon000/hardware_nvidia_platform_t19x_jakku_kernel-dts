@@ -642,7 +642,6 @@
 #else
 							remote-endpoint = <&imx219_out0>;
 #endif
-							port-index = <0>;
 						};
 					};
 
