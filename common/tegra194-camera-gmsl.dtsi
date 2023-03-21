@@ -642,7 +642,6 @@
 #else
 							remote-endpoint = <&imx219_out0>;
 #endif
-							port-index = <0>;
 						};
 					};
 
@@ -650,6 +649,7 @@
 						reg = <3>;
 						max96717_out0: endpoint {
 							remote-endpoint = <&max96712_in0>;
+							port-index = <0>;
 						};
 					};
 				};
