@@ -24,7 +24,7 @@
 
 / {
 	tegra-capture-vi  {
-		num-channels = <1>;
+		num-channels = <2>;
 
 		ports {
 			#address-cells = <1>;
@@ -34,9 +34,21 @@
 				reg = <0>;
 
 				vi_in0: endpoint {
+					vc-id = <0>;
 					port-index = <0>;
 					bus-width = <2>;
 					remote-endpoint = <&csi_out0>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				vi_in1: endpoint {
+					vc-id = <1>;
+					port-index = <0>;
+					bus-width = <2>;
+					remote-endpoint = <&csi_out1>;
 				};
 			};
 		};
@@ -44,7 +56,8 @@
 
 	host1x@13e00000 {
 		nvcsi@15a00000 {
-			num-channels = <1>;
+			num-channels = <2>;
+
 			#address-cells = <1>;
 			#size-cells = <0>;
 
@@ -74,6 +87,33 @@
 					};
 				};
 			};
+
+			channel@1 {
+				reg = <1>;
+
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@0 {
+						reg = <0>;
+
+						csi_in1: endpoint@2 {
+							port-index = <0>;
+							bus-width = <2>;
+							remote-endpoint = <&max96712_out1>;
+						};
+					};
+
+					port@1 {
+						reg = <1>;
+
+						csi_out1: endpoint@3 {
+							remote-endpoint = <&vi_in1>;
+						};
+					};
+				};
+			};
 		};
 	};
 
@@ -83,10 +123,10 @@
 	cam_i2cmux {
 		i2c_0: i2c@0 {
 #endif
-			ox03a_a@36 {
+			ox03a_a@37 {
 				compatible = "ov,ox03a";
 				/* I2C device address */
-				reg = <0x36>;
+				reg = <0x37>;
 
 				nv,skip-notifier;
 				nv,skip-link;
@@ -101,9 +141,6 @@
 				sensor_model = "ox03a";
 
 				use_sensor_mode_id = "true";
-
-				reset-gpios = <&tegra_main_gpio CAM0_RESET GPIO_ACTIVE_HIGH>;
-				pwdn-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
 
 				/**
 				* ==== Modes ====
@@ -232,10 +269,167 @@
 					port@0 {
 						reg = <0>;
 						ox03a_out0: endpoint {
+							vc-id = <0>;
 							port-index = <0>;
 							bus-width = <4>;
 							data-lanes = <1 2 3 4>;
 							remote-endpoint = <&max96717_in0>;
+						};
+					};
+				};
+			};
+
+			ox03a_b@38 {
+				compatible = "ov,ox03a";
+				/* I2C device address */
+				reg = <0x38>;
+
+				nv,skip-notifier;
+				nv,skip-link;
+
+				/* V4L2 device node location */
+				devnode = "video1";
+
+				/* Physical dimensions of sensor */
+				physical_w = "3.680";
+				physical_h = "2.760";
+
+				sensor_model = "ox03a";
+
+				use_sensor_mode_id = "true";
+
+				/**
+				* ==== Modes ====
+				* A modeX node is required to support v4l2 driver
+				* implementation with NVIDIA camera software stack
+				*
+				* == Signal properties ==
+				*
+				* phy_mode = "";
+				* PHY mode used by the MIPI lanes for this device
+				*
+				* tegra_sinterface = "";
+				* CSI Serial interface connected to tegra
+				* Incase of virtual HW devices, use virtual
+				* For SW emulated devices, use host
+				*
+				* pix_clk_hz = "";
+				* Sensor pixel clock used for calculations like exposure and framerate
+				*
+				* readout_orientation = "0";
+				* Based on camera module orientation.
+				* Only change readout_orientation if you specifically
+				* Program a different readout order for this mode
+				*
+				* == Image format Properties ==
+				*
+				* active_w = "";
+				* Pixel active region width
+				*
+				* active_h = "";
+				* Pixel active region height
+				*
+				* pixel_t = "";
+				* The sensor readout pixel pattern
+				*
+				* line_length = "";
+				* Pixel line length (width) for sensor mode.
+				*
+				* == Source Control Settings ==
+				*
+				* Gain factor used to convert fixed point integer to float
+				* Gain range [min_gain/gain_factor, max_gain/gain_factor]
+				* Gain step [step_gain/gain_factor is the smallest step that can be configured]
+				* Default gain [Default gain to be initialized for the control.
+				*     use min_gain_val as default for optimal results]
+				* Framerate factor used to convert fixed point integer to float
+				* Framerate range [min_framerate/framerate_factor, max_framerate/framerate_factor]
+				* Framerate step [step_framerate/framerate_factor is the smallest step that can be configured]
+				* Default Framerate [Default framerate to be initialized for the control.
+				*     use max_framerate to get required performance]
+				* Exposure factor used to convert fixed point integer to float
+				* For convenience use 1 sec = 1000000us as conversion factor
+				* Exposure range [min_exp_time/exposure_factor, max_exp_time/exposure_factor]
+				* Exposure step [step_exp_time/exposure_factor is the smallest step that can be configured]
+				* Default Exposure Time [Default exposure to be initialized for the control.
+				*     Set default exposure based on the default_framerate for optimal exposure settings]
+				*
+				* gain_factor = ""; (integer factor used for floating to fixed point conversion)
+				* min_gain_val = ""; (ceil to integer)
+				* max_gain_val = ""; (ceil to integer)
+				* step_gain_val = ""; (ceil to integer)
+				* default_gain = ""; (ceil to integer)
+				* Gain limits for mode
+				*
+				* exposure_factor = ""; (integer factor used for floating to fixed point conversion)
+				* min_exp_time = ""; (ceil to integer)
+				* max_exp_time = ""; (ceil to integer)
+				* step_exp_time = ""; (ceil to integer)
+				* default_exp_time = ""; (ceil to integer)
+				* Exposure Time limits for mode (sec)
+				*
+				* framerate_factor = ""; (integer factor used for floating to fixed point conversion)
+				* min_framerate = ""; (ceil to integer)
+				* max_framerate = ""; (ceil to integer)
+				* step_framerate = ""; (ceil to integer)
+				* default_framerate = ""; (ceil to integer)
+				* Framerate limits for mode (fps)
+				*
+				* embedded_metadata_height = "";
+				* Sensor embedded metadata height in units of rows.
+				* If sensor does not support embedded metadata value should be 0.
+				*/
+				mode0 { /* OX03A_MODE_1920x1280_30FPS */
+					mclk_khz = "25000";
+					num_lanes = "2";
+					tegra_sinterface = "serial_a";
+					phy_mode = "DPHY";
+					discontinuous_clk = "no";
+					dpcm_enable = "false";
+					cil_settletime = "0";
+
+					active_w = "1920";
+					active_h = "1280";
+					mode_type = "bayer";
+					pixel_phase = "bggr";
+					csi_pixel_bit_depth = "12";
+					readout_orientation = "0";
+					line_length = "1920";
+					inherent_gain = "1";
+					mclk_multiplier = "10";
+					pix_clk_hz = "250000000";
+
+					gain_factor = "16";
+					framerate_factor = "1000000";
+					exposure_factor = "1000000";
+					min_gain_val = "16"; /* 1.00x */
+					max_gain_val = "170"; /* 10.66x */
+					step_gain_val = "1";
+					default_gain = "16"; /* 1.00x */
+					min_hdr_ratio = "1";
+					max_hdr_ratio = "1";
+					min_framerate = "2000000"; /* 2.0 fps */
+					max_framerate = "30000000"; /* 30.0 fps */
+					step_framerate = "1";
+					default_framerate = "30000000"; /* 21.0 fps */
+					min_exp_time = "13"; /* us */
+					max_exp_time = "683709"; /* us */
+					step_exp_time = "1";
+					default_exp_time = "2495"; /* us */
+
+					embedded_metadata_height = "0";
+				};
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						ox03a_out1: endpoint {
+							vc-id = <1>;
+							port-index = <0>;
+							bus-width = <4>;
+							data-lanes = <1 2 3 4>;
+							remote-endpoint = <&max96717_in1>;
 						};
 					};
 				};
@@ -247,8 +441,11 @@
 
 				max,skip-subdev-s-stream;
 
-				max,2-i2c-translate = <0x40 0x40>, <0x36 0x36>;
-				max,3-i2c-translate = <0x40 0x41>, <0x36 0x37>;
+				max,2-ser-addr-translate = <0x40 0x41>;
+				max,3-ser-addr-translate = <0x40 0x42>;
+
+				max,2-i2c-addr-translate = <0x36 0x37>;
+				max,3-i2c-addr-translate = <0x36 0x38>;
 
 				ports {
 					#address-cells = <1>;
@@ -259,6 +456,14 @@
 
 						max96712_in0: endpoint {
 							remote-endpoint = <&max96717_out0>;
+						};
+					};
+
+					port@3 {
+						reg = <3>;
+
+						max96712_in1: endpoint {
+							remote-endpoint = <&max96717_out1>;
 						};
 					};
 
@@ -273,12 +478,24 @@
 							clock-noncontinuous;
 						};
 					};
+
+					port@7 {
+						reg = <7>;
+
+						max96712_out1: endpoint {
+							remote-endpoint = <&csi_in1>;
+							port-index = <0>;
+							clock-lanes = <0>;
+							data-lanes = <1 2>;
+							clock-noncontinuous;
+						};
+					};
 				};
 			};
 
-			gmsl-serializer@40 {
+			gmsl-serializer@41 {
 				compatible = "maxim,max96717";
-				reg = <0x40>;
+				reg = <0x41>;
 
 				max,skip-subdev-s-stream;
 
@@ -302,6 +519,38 @@
 
 						max96717_out0: endpoint {
 							remote-endpoint = <&max96712_in0>;
+							port-index = <0>;
+						};
+					};
+				};
+			};
+
+			gmsl-serializer@42 {
+				compatible = "maxim,max96717";
+				reg = <0x42>;
+
+				max,skip-subdev-s-stream;
+
+				nv,skip-notifier;
+				nv,skip-link;
+
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@1 {
+						reg = <1>;
+
+						max96717_in1: endpoint {
+							remote-endpoint = <&ox03a_out1>;
+						};
+					};
+
+					port@3 {
+						reg = <3>;
+
+						max96717_out1: endpoint {
+							remote-endpoint = <&max96712_in1>;
 							port-index = <0>;
 						};
 					};
@@ -361,18 +610,33 @@
 		 * in the module's specsheet from the vendor.
 		 */
 		modules {
-			cam_module0: module0 {
-				badge = "jakku_front_RBP194";
+			module0 {
+				badge = "jakku_front_RBP1941";
 				position = "front";
 				orientation = "1";
-				cam_module0_drivernode0: drivernode0 {
+				drivernode0 {
 					pcl_id = "v4l2_sensor";
 #if defined(BROKEN_I2C_FIX)
-					devname = "ox03a 1-0036";
-					proc-device-tree = "/proc/device-tree/i2c@c240000/ox03a_a@36";
+					devname = "ox03a 1-0037";
+					proc-device-tree = "/proc/device-tree/i2c@c240000/ox03a_a@37";
 #else
-					devname = "ox03a 9-0036";
-					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/ox03a_a@36";
+					devname = "ox03a 9-0037";
+					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/ox03a_a@37";
+#endif
+				};
+			};
+			module1 {
+				badge = "jakku_front_RBP1942";
+				position = "front";
+				orientation = "1";
+				drivernode0 {
+					pcl_id = "v4l2_sensor";
+#if defined(BROKEN_I2C_FIX)
+					devname = "ox03a 1-0038";
+					proc-device-tree = "/proc/device-tree/i2c@c240000/ox03a_b@38";
+#else
+					devname = "ox03a 9-0038";
+					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/ox03a_b@38";
 #endif
 				};
 			};
