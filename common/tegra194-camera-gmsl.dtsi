@@ -83,7 +83,7 @@
 	cam_i2cmux {
 		i2c_0: i2c@0 {
 #endif
-			ox03a_cam0: ox03a_a@36 {
+			ox03a_a@36 {
 				compatible = "ov,ox03a";
 				/* I2C device address */
 				reg = <0x36>;
@@ -241,7 +241,7 @@
 				};
 			};
 
-			gmsl_deserializer: gmsl-deserializer@27 {
+			gmsl-deserializer@27 {
 				compatible = "maxim,max96712";
 				reg = <0x27>;
 
@@ -276,7 +276,7 @@
 				};
 			};
 
-			gmsl_serializer: gmsl-serializer@40 {
+			gmsl-serializer@40 {
 				compatible = "maxim,max96717";
 				reg = <0x40>;
 
