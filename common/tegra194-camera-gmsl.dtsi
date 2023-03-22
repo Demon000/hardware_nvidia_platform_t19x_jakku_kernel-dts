@@ -610,6 +610,8 @@
 				compatible = "maxim,max96712";
 				reg = <0x27>;
 
+				max,skip-subdev-s-stream;
+
 				ports {
 					#address-cells = <1>;
 					#size-cells = <0>;
@@ -639,6 +641,8 @@
 			gmsl_serializer: gmsl-serializer@40 {
 				compatible = "maxim,max96717";
 				reg = <0x40>;
+
+				max,skip-subdev-s-stream;
 
 				nv,skip-notifier;
 				nv,skip-link;
