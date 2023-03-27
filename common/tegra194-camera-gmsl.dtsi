@@ -447,47 +447,61 @@
 				max,2-i2c-addr-translate = <0x36 0x37>;
 				max,3-i2c-addr-translate = <0x36 0x38>;
 
-				ports {
-					#address-cells = <1>;
-					#size-cells = <0>;
+				channel@2 {
+					reg = <2>;
 
-					port@2 {
-						reg = <2>;
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
 
-						max96712_in0: endpoint {
-							remote-endpoint = <&max96717_out0>;
+						port@0 {
+							reg = <0>;
+
+							max96712_out0: endpoint {
+								remote-endpoint = <&csi_in0>;
+								port-index = <0>;
+								clock-lanes = <0>;
+								data-lanes = <1 2>;
+								clock-noncontinuous;
+							};
+						};
+
+
+						port@1 {
+							reg = <1>;
+
+							max96712_in0: endpoint {
+								remote-endpoint = <&max96717_out0>;
+							};
 						};
 					};
+				};
 
-					port@3 {
-						reg = <3>;
+				channel@3 {
+					reg = <3>;
 
-						max96712_in1: endpoint {
-							remote-endpoint = <&max96717_out1>;
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
+
+						port@0 {
+							reg = <0>;
+
+							max96712_out1: endpoint {
+								remote-endpoint = <&csi_in1>;
+								port-index = <0>;
+								clock-lanes = <0>;
+								data-lanes = <1 2>;
+								clock-noncontinuous;
+							};
 						};
-					};
 
-					port@6 {
-						reg = <6>;
+						port@1 {
+							reg = <1>;
 
-						max96712_out0: endpoint {
-							remote-endpoint = <&csi_in0>;
-							port-index = <0>;
-							clock-lanes = <0>;
-							data-lanes = <1 2>;
-							clock-noncontinuous;
-						};
-					};
-
-					port@7 {
-						reg = <7>;
-
-						max96712_out1: endpoint {
-							remote-endpoint = <&csi_in1>;
-							port-index = <0>;
-							clock-lanes = <0>;
-							data-lanes = <1 2>;
-							clock-noncontinuous;
+							max96712_in1: endpoint {
+								remote-endpoint = <&max96717_out1>;
+							};
 						};
 					};
 				};
