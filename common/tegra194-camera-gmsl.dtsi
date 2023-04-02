@@ -441,14 +441,11 @@
 
 				max,skip-subdev-s-stream;
 
-				max,2-ser-addr-translate = <0x40 0x41>;
-				max,3-ser-addr-translate = <0x40 0x42>;
-
-				max,2-i2c-addr-translate = <0x36 0x37>;
-				max,3-i2c-addr-translate = <0x36 0x38>;
-
 				channel@2 {
 					reg = <2>;
+
+					max,ser-addr-translate = <0x40 0x41>;
+					max,i2c-addr-translate = <0x36 0x37>;
 
 					ports {
 						#address-cells = <1>;
@@ -466,7 +463,6 @@
 							};
 						};
 
-
 						port@1 {
 							reg = <1>;
 
@@ -479,6 +475,9 @@
 
 				channel@3 {
 					reg = <3>;
+
+					max,ser-addr-translate = <0x40 0x42>;
+					max,i2c-addr-translate = <0x36 0x38>;
 
 					ports {
 						#address-cells = <1>;
