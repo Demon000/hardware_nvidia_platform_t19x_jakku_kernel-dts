@@ -17,10 +17,15 @@
 #include <dt-bindings/media/camera.h>
 
 #define BROKEN_I2C_FIX
+#define GMSL_CAMERA_NUM	2
+#define GMSL_CAMERA_1
+#if (GMSL_CAMERA_NUM >= 2)
+#define GMSL_CAMERA_2
+#endif
 
 / {
 	tegra-capture-vi  {
-		num-channels = <2>;
+		num-channels = <GMSL_CAMERA_NUM>;
 
 		ports {
 			#address-cells = <1>;
@@ -37,6 +42,7 @@
 				};
 			};
 
+#if defined(GMSL_CAMERA_2)
 			port@1 {
 				reg = <1>;
 
@@ -47,12 +53,13 @@
 					remote-endpoint = <&csi_out1>;
 				};
 			};
+#endif
 		};
 	};
 
 	host1x@13e00000 {
 		nvcsi@15a00000 {
-			num-channels = <2>;
+			num-channels = <GMSL_CAMERA_NUM>;
 
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -84,6 +91,7 @@
 				};
 			};
 
+#if defined(GMSL_CAMERA_2)
 			channel@1 {
 				reg = <1>;
 
@@ -110,6 +118,7 @@
 					};
 				};
 			};
+#endif
 		};
 	};
 
@@ -236,6 +245,7 @@
 						};
 					};
 
+#if defined(GMSL_CAMERA_2)
 					i2c@3 {
 						reg = <3>;
 
@@ -345,6 +355,7 @@
 							};
 						};
 					};
+#endif
 				};
 
 				channel@2 {
@@ -376,6 +387,7 @@
 					};
 				};
 
+#if defined(GMSL_CAMERA_2)
 				channel@3 {
 					reg = <3>;
 
@@ -404,6 +416,7 @@
 						};
 					};
 				};
+#endif
 			};
 
 #if !defined(BROKEN_I2C_FIX)
@@ -474,6 +487,8 @@
 #endif
 				};
 			};
+
+#if defined(GMSL_CAMERA_2)
 			module1 {
 				badge = "jakku_front_RBP1942";
 				position = "front";
@@ -489,6 +504,7 @@
 #endif
 				};
 			};
+#endif
 		};
 	};
 };
