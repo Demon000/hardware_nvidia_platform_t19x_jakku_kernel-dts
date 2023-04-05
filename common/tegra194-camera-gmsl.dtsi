@@ -17,11 +17,12 @@
 #include <dt-bindings/media/camera.h>
 
 #define BROKEN_I2C_FIX
-#define GMSL_CAMERA_NUM	2
+#define GMSL_CAMERA_NUM	1
 #define GMSL_CAMERA_1
 #if (GMSL_CAMERA_NUM >= 2)
 #define GMSL_CAMERA_2
 #endif
+// #define GMSL_VC
 
 / {
 	tegra-capture-vi  {
@@ -35,7 +36,9 @@
 				reg = <0>;
 
 				vi_in0: endpoint {
+#if defined(GMSL_VC)
 					vc-id = <0>;
+#endif
 					port-index = <0>;
 					bus-width = <2>;
 					remote-endpoint = <&csi_out0>;
@@ -47,7 +50,9 @@
 				reg = <1>;
 
 				vi_in1: endpoint {
+#if defined(GMSL_VC)
 					vc-id = <1>;
+#endif
 					port-index = <0>;
 					bus-width = <2>;
 					remote-endpoint = <&csi_out1>;
@@ -234,7 +239,9 @@
 								port@0 {
 									reg = <0>;
 									ox03a_out0: endpoint {
+#if defined(GMSL_VC)
 										vc-id = <0>;
+#endif
 										port-index = <0>;
 										bus-width = <4>;
 										data-lanes = <1 2 3 4>;
@@ -345,7 +352,9 @@
 								port@0 {
 									reg = <0>;
 									ox03a_out1: endpoint {
+#if defined(GMSL_VC)
 										vc-id = <1>;
+#endif
 										port-index = <0>;
 										bus-width = <4>;
 										data-lanes = <1 2 3 4>;
