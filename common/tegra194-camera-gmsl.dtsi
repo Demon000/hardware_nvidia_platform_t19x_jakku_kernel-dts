@@ -400,6 +400,8 @@
 				channel@3 {
 					reg = <3>;
 
+					max,tunnel-destination = <2>;
+
 					ports {
 						#address-cells = <1>;
 						#size-cells = <0>;
