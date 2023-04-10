@@ -17,12 +17,12 @@
 #include <dt-bindings/media/camera.h>
 
 #define BROKEN_I2C_FIX
-#define GMSL_CAMERA_NUM	2
+#define GMSL_CAMERA_NUM	1
 #define GMSL_CAMERA_1
 #if (GMSL_CAMERA_NUM >= 2)
 #define GMSL_CAMERA_2
 #endif
-#define GMSL_VC
+// #define GMSL_VC
 
 / {
 	tegra-capture-vi  {
