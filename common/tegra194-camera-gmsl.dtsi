@@ -150,27 +150,31 @@
 
 							max,skip-subdev-s-stream;
 
-							nv,skip-notifier;
-							nv,skip-link;
+							channel@1 {
+								reg = <1>;
 
-							ports {
-								#address-cells = <1>;
-								#size-cells = <0>;
+								nv,skip-notifier;
+								nv,skip-link;
 
-								port@1 {
-									reg = <1>;
+								ports {
+									#address-cells = <1>;
+									#size-cells = <0>;
 
-									max96717_in0: endpoint {
-										remote-endpoint = <&ox03a_out0>;
+									port@0 {
+										reg = <0>;
+
+										max96717_out0: endpoint {
+											remote-endpoint = <&max96712_in0>;
+											port-index = <0>;
+										};
 									};
-								};
 
-								port@3 {
-									reg = <3>;
+									port@1 {
+										reg = <1>;
 
-									max96717_out0: endpoint {
-										remote-endpoint = <&max96712_in0>;
-										port-index = <0>;
+										max96717_in0: endpoint {
+											remote-endpoint = <&ox03a_out0>;
+										};
 									};
 								};
 							};
@@ -262,27 +266,31 @@
 
 							max,skip-subdev-s-stream;
 
-							nv,skip-notifier;
-							nv,skip-link;
+							channel@1 {
+								reg = <1>;
 
-							ports {
-								#address-cells = <1>;
-								#size-cells = <0>;
+								nv,skip-notifier;
+								nv,skip-link;
 
-								port@1 {
-									reg = <1>;
+								ports {
+									#address-cells = <1>;
+									#size-cells = <0>;
 
-									max96717_in1: endpoint {
-										remote-endpoint = <&ox03a_out1>;
+									port@0 {
+										reg = <0>;
+
+										max96717_out1: endpoint {
+											remote-endpoint = <&max96712_in1>;
+											port-index = <0>;
+										};
 									};
-								};
 
-								port@3 {
-									reg = <3>;
+									port@1 {
+										reg = <1>;
 
-									max96717_out1: endpoint {
-										remote-endpoint = <&max96712_in1>;
-										port-index = <0>;
+										max96717_in1: endpoint {
+											remote-endpoint = <&ox03a_out1>;
+										};
 									};
 								};
 							};
