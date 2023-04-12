@@ -408,7 +408,7 @@
 				channel@3 {
 					reg = <3>;
 
-					max,tunnel-destination = <2>;
+					max,controller-destination = <2>;
 
 					ports {
 						#address-cells = <1>;
