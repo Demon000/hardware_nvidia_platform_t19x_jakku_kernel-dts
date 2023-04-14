@@ -138,8 +138,6 @@
 				compatible = "maxim,max96712";
 				reg = <0x27>;
 
-				nv,subdev-for-calls;
-
 				i2c-mux {
 					i2c@2 {
 						reg = <2>;
@@ -387,6 +385,8 @@
 						<0x00 0x00 0x00 0x00 0x2>,
 						<0x01 0x00 0x01 0x00 0x2>;
 
+					nv,subdev-for-calls;
+
 					ports {
 						#address-cells = <1>;
 						#size-cells = <0>;
@@ -422,6 +422,8 @@
 						<0x2c 0x00 0x2c 0x01 0x2>,
 						<0x00 0x00 0x00 0x01 0x2>,
 						<0x01 0x00 0x01 0x01 0x2>;
+
+					nv,subdev-for-calls;
 
 					ports {
 						#address-cells = <1>;
