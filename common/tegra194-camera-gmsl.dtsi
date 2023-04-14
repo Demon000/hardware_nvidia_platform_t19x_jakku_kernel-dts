@@ -148,6 +148,8 @@
 							compatible = "maxim,max96717";
 							reg = <0x40>;
 
+							max,pixel-mode;
+
 							channel@1 {
 								reg = <1>;
 
@@ -263,6 +265,8 @@
 						gmsl-serializer@40 {
 							compatible = "maxim,max96717";
 							reg = <0x40>;
+
+							max,pixel-mode;
 
 							channel@1 {
 								reg = <1>;
