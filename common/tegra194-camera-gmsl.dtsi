@@ -16,14 +16,16 @@
  */
 #include <dt-bindings/media/camera.h>
 
-#define BROKEN_I2C_FIX
-#define GMSL_CAMERA_NUM	2
+#define GMSL_CAMERA_NUM	3
 #define GMSL_CAMERA_1
 #if (GMSL_CAMERA_NUM >= 2)
 #define GMSL_CAMERA_2
 #endif
+#if (GMSL_CAMERA_NUM >= 3)
+#define GMSL_CAMERA_3
+#endif
 #define GMSL_VC
-#define GMSL_PHY 2
+#define GMSL_PHY 0x2
 
 / {
 	tegra-capture-vi  {
@@ -57,6 +59,21 @@
 					port-index = <0>;
 					bus-width = <2>;
 					remote-endpoint = <&csi_out1>;
+				};
+			};
+#endif
+
+#if defined(GMSL_CAMERA_3)
+			port@2 {
+				reg = <2>;
+
+				vi_in2: endpoint {
+#if defined(GMSL_VC)
+					vc-id = <2>;
+#endif
+					port-index = <0>;
+					bus-width = <2>;
+					remote-endpoint = <&csi_out2>;
 				};
 			};
 #endif
@@ -125,23 +142,46 @@
 				};
 			};
 #endif
+
+#if defined(GMSL_CAMERA_3)
+			channel@2 {
+				reg = <2>;
+
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@0 {
+						reg = <0>;
+
+						csi_in2: endpoint@4 {
+							port-index = <0>;
+							bus-width = <2>;
+							remote-endpoint = <&max96712_out2>;
+						};
+					};
+
+					port@1 {
+						reg = <1>;
+
+						csi_out2: endpoint@5 {
+							remote-endpoint = <&vi_in2>;
+						};
+					};
+				};
+			};
+#endif
 		};
 	};
 
-#if defined(BROKEN_I2C_FIX)
 	i2c@c240000 {
-#else
-	cam_i2cmux {
-		i2c_0: i2c@0 {
-#endif
-
 			gmsl-deserializer@27 {
 				compatible = "maxim,max96712";
 				reg = <0x27>;
 
 				i2c-mux {
-					i2c@2 {
-						reg = <2>;
+					i2c@0 {
+						reg = <0>;
 
 						gmsl-serializer@40 {
 							compatible = "maxim,max96717";
@@ -188,8 +228,8 @@
 					};
 
 #if defined(GMSL_CAMERA_2)
-					i2c@3 {
-						reg = <3>;
+					i2c@1 {
+						reg = <1>;
 
 						gmsl-serializer@40 {
 							compatible = "maxim,max96717";
@@ -235,11 +275,61 @@
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
 					};
 #endif
+
+#if defined(GMSL_CAMERA_3)
+					i2c@2 {
+						reg = <2>;
+
+						gmsl-serializer@40 {
+							compatible = "maxim,max96717";
+							reg = <0x40>;
+
+							max,pixel-mode;
+
+							channel@1 {
+								reg = <1>;
+
+								nv,skip-s-stream;
+								nv,skip-notifier;
+								nv,skip-link;
+
+								ports {
+									#address-cells = <1>;
+									#size-cells = <0>;
+
+									port@0 {
+										reg = <0>;
+
+										max96717_out2: endpoint {
+											remote-endpoint = <&max96712_in2>;
+											port-index = <0>;
+										};
+									};
+
+									port@1 {
+										reg = <1>;
+
+										max96717_in2: endpoint {
+											remote-endpoint = <&ox03a_out2>;
+										};
+									};
+								};
+							};
+						};
+
+						#define OX03A_VC_ID 2
+						#define OX03A_VIDEO_NODE "video2"
+						#define OX03A_OUT_LABEL ox03a_out2
+						#define OX03A_IN_LABEL max96717_in2
+						#include "tegra194-camera-gmsl-ox03a.dtsi"
+					};
+#endif
 				};
 
-				channel@2 {
-					reg = <2>;
+				channel@0 {
+					reg = <0>;
 
+					max,dest-phy = <GMSL_PHY>;
 					max,dt-vc-phy-remap =
 						<0x2c 0x00 0x2c 0x00 GMSL_PHY>,
 						<0x00 0x00 0x00 0x00 GMSL_PHY>,
@@ -274,8 +364,8 @@
 				};
 
 #if defined(GMSL_CAMERA_2)
-				channel@3 {
-					reg = <3>;
+				channel@1 {
+					reg = <1>;
 
 					max,dest-phy = <GMSL_PHY>;
 					max,dt-vc-phy-remap =
@@ -311,11 +401,46 @@
 					};
 				};
 #endif
-			};
 
-#if !defined(BROKEN_I2C_FIX)
-		};
+#if defined(GMSL_CAMERA_3)
+				channel@2 {
+					reg = <2>;
+
+					max,dest-phy = <GMSL_PHY>;
+					max,dt-vc-phy-remap =
+						<0x2c 0x00 0x2c 0x02 GMSL_PHY>,
+						<0x00 0x00 0x00 0x02 GMSL_PHY>,
+						<0x01 0x00 0x01 0x02 GMSL_PHY>;
+
+					nv,subdev-for-calls;
+
+					ports {
+						#address-cells = <1>;
+						#size-cells = <0>;
+
+						port@0 {
+							reg = <0>;
+
+							max96712_out2: endpoint {
+								remote-endpoint = <&csi_in2>;
+								port-index = <0>;
+								clock-lanes = <0>;
+								data-lanes = <1 2>;
+								clock-noncontinuous;
+							};
+						};
+
+						port@1 {
+							reg = <1>;
+
+							max96712_in2: endpoint {
+								remote-endpoint = <&max96717_out2>;
+							};
+						};
+					};
+				};
 #endif
+			};
 	};
 };
 / {
@@ -367,35 +492,38 @@
 		 */
 		modules {
 			module0 {
-				badge = "jakku_front_RBP1941";
+				badge = "cam0";
 				position = "front";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
-#if defined(BROKEN_I2C_FIX)
-					devname = "ox03a 1-0037";
-					proc-device-tree = "/proc/device-tree/i2c@c240000/ox03a_a@37";
-#else
-					devname = "ox03a 9-0037";
-					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/ox03a_a@37";
-#endif
+					devname = "ox03a 9-0036";
+					proc-device-tree = "/proc/device-tree/i2c@c240000/gmsl-deserializer@27/i2c-mux/i2c@0/ox03a@36";
 				};
 			};
 
 #if defined(GMSL_CAMERA_2)
 			module1 {
-				badge = "jakku_front_RBP1942";
+				badge = "cam1";
 				position = "front";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
-#if defined(BROKEN_I2C_FIX)
-					devname = "ox03a 1-0038";
-					proc-device-tree = "/proc/device-tree/i2c@c240000/ox03a_b@38";
-#else
-					devname = "ox03a 9-0038";
-					proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/ox03a_b@38";
+					devname = "ox03a 10-0036";
+					proc-device-tree = "/proc/device-tree/i2c@c240000/gmsl-deserializer@27/i2c-mux/i2c@1/ox03a@36";
+				};
+			};
 #endif
+
+#if defined(GMSL_CAMERA_3)
+			module2 {
+				badge = "cam2";
+				position = "front";
+				orientation = "1";
+				drivernode0 {
+					pcl_id = "v4l2_sensor";
+					devname = "ox03a 11-0036";
+					proc-device-tree = "/proc/device-tree/i2c@c240000/gmsl-deserializer@27/i2c-mux/i2c@2/ox03a@36";
 				};
 			};
 #endif
