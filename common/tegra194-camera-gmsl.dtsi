@@ -179,81 +179,11 @@
 							};
 						};
 
-						ox03a_a@36 {
-							compatible = "ov,ox03a";
-							reg = <0x36>;
-
-							nv,skip-s-stream;
-							nv,skip-notifier;
-							nv,skip-link;
-
-							devnode = "video0";
-
-							physical_w = "3.680";
-							physical_h = "2.760";
-
-							sensor_model = "ox03a";
-
-							use_sensor_mode_id = "true";
-
-							mode0 {
-								mclk_khz = "25000";
-								num_lanes = "2";
-								tegra_sinterface = "serial_a";
-								phy_mode = "DPHY";
-								discontinuous_clk = "no";
-								dpcm_enable = "false";
-								cil_settletime = "0";
-
-								active_w = "1920";
-								active_h = "1280";
-								mode_type = "bayer";
-								pixel_phase = "bggr";
-								csi_pixel_bit_depth = "12";
-								readout_orientation = "0";
-								line_length = "1920";
-								inherent_gain = "1";
-								mclk_multiplier = "10";
-								pix_clk_hz = "250000000";
-
-								gain_factor = "16";
-								framerate_factor = "1000000";
-								exposure_factor = "1000000";
-								min_gain_val = "16"; /* 1.00x */
-								max_gain_val = "170"; /* 10.66x */
-								step_gain_val = "1";
-								default_gain = "16"; /* 1.00x */
-								min_hdr_ratio = "1";
-								max_hdr_ratio = "1";
-								min_framerate = "2000000"; /* 2.0 fps */
-								max_framerate = "30000000"; /* 30.0 fps */
-								step_framerate = "1";
-								default_framerate = "30000000"; /* 21.0 fps */
-								min_exp_time = "13"; /* us */
-								max_exp_time = "683709"; /* us */
-								step_exp_time = "1";
-								default_exp_time = "2495"; /* us */
-
-								embedded_metadata_height = "0";
-							};
-
-							ports {
-								#address-cells = <1>;
-								#size-cells = <0>;
-								port@0 {
-									reg = <0>;
-									ox03a_out0: endpoint {
-#if defined(GMSL_VC)
-										vc-id = <0>;
-#endif
-										port-index = <0>;
-										bus-width = <4>;
-										data-lanes = <1 2 3 4>;
-										remote-endpoint = <&max96717_in0>;
-									};
-								};
-							};
-						};
+						#define OX03A_VC_ID 0
+						#define OX03A_VIDEO_NODE "video0"
+						#define OX03A_OUT_LABEL ox03a_out0
+						#define OX03A_IN_LABEL max96717_in0
+						#include "tegra194-camera-gmsl-ox03a.dtsi"
 					};
 
 #if defined(GMSL_CAMERA_2)
@@ -297,82 +227,11 @@
 							};
 						};
 
-
-						ox03a_b@36 {
-							compatible = "ov,ox03a";
-							reg = <0x36>;
-
-							nv,skip-s-stream;
-							nv,skip-notifier;
-							nv,skip-link;
-
-							devnode = "video1";
-
-							physical_w = "3.680";
-							physical_h = "2.760";
-
-							sensor_model = "ox03a";
-
-							use_sensor_mode_id = "true";
-
-							mode0 { /* OX03A_MODE_1920x1280_30FPS */
-								mclk_khz = "25000";
-								num_lanes = "2";
-								tegra_sinterface = "serial_a";
-								phy_mode = "DPHY";
-								discontinuous_clk = "no";
-								dpcm_enable = "false";
-								cil_settletime = "0";
-
-								active_w = "1920";
-								active_h = "1280";
-								mode_type = "bayer";
-								pixel_phase = "bggr";
-								csi_pixel_bit_depth = "12";
-								readout_orientation = "0";
-								line_length = "1920";
-								inherent_gain = "1";
-								mclk_multiplier = "10";
-								pix_clk_hz = "250000000";
-
-								gain_factor = "16";
-								framerate_factor = "1000000";
-								exposure_factor = "1000000";
-								min_gain_val = "16"; /* 1.00x */
-								max_gain_val = "170"; /* 10.66x */
-								step_gain_val = "1";
-								default_gain = "16"; /* 1.00x */
-								min_hdr_ratio = "1";
-								max_hdr_ratio = "1";
-								min_framerate = "2000000"; /* 2.0 fps */
-								max_framerate = "30000000"; /* 30.0 fps */
-								step_framerate = "1";
-								default_framerate = "30000000"; /* 21.0 fps */
-								min_exp_time = "13"; /* us */
-								max_exp_time = "683709"; /* us */
-								step_exp_time = "1";
-								default_exp_time = "2495"; /* us */
-
-								embedded_metadata_height = "0";
-							};
-
-							ports {
-								#address-cells = <1>;
-								#size-cells = <0>;
-								port@0 {
-									reg = <0>;
-									ox03a_out1: endpoint {
-#if defined(GMSL_VC)
-										vc-id = <1>;
-#endif
-										port-index = <0>;
-										bus-width = <4>;
-										data-lanes = <1 2 3 4>;
-										remote-endpoint = <&max96717_in1>;
-									};
-								};
-							};
-						};
+						#define OX03A_VC_ID 1
+						#define OX03A_VIDEO_NODE "video1"
+						#define OX03A_OUT_LABEL ox03a_out1
+						#define OX03A_IN_LABEL max96717_in1
+						#include "tegra194-camera-gmsl-ox03a.dtsi"
 					};
 #endif
 				};
