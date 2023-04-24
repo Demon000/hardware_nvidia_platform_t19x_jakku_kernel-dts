@@ -26,6 +26,7 @@
 #endif
 #define GMSL_VC
 #define GMSL_PHY 0x2
+#define GMSL_PORT	0x0
 
 / {
 	tegra-capture-vi  {
@@ -42,7 +43,7 @@
 #if defined(GMSL_VC)
 					vc-id = <0>;
 #endif
-					port-index = <0>;
+					port-index = <GMSL_PORT>;
 					bus-width = <2>;
 					remote-endpoint = <&csi_out0>;
 				};
@@ -56,7 +57,7 @@
 #if defined(GMSL_VC)
 					vc-id = <1>;
 #endif
-					port-index = <0>;
+					port-index = <GMSL_PORT>;
 					bus-width = <2>;
 					remote-endpoint = <&csi_out1>;
 				};
@@ -71,7 +72,7 @@
 #if defined(GMSL_VC)
 					vc-id = <2>;
 #endif
-					port-index = <0>;
+					port-index = <GMSL_PORT>;
 					bus-width = <2>;
 					remote-endpoint = <&csi_out2>;
 				};
@@ -98,7 +99,7 @@
 						reg = <0>;
 
 						csi_in0: endpoint@0 {
-							port-index = <0>;
+							port-index = <GMSL_PORT>;
 							bus-width = <2>;
 							remote-endpoint = <&max96712_out0>;
 						};
@@ -126,7 +127,7 @@
 						reg = <0>;
 
 						csi_in1: endpoint@2 {
-							port-index = <0>;
+							port-index = <GMSL_PORT>;
 							bus-width = <2>;
 							remote-endpoint = <&max96712_out1>;
 						};
@@ -155,7 +156,7 @@
 						reg = <0>;
 
 						csi_in2: endpoint@4 {
-							port-index = <0>;
+							port-index = <GMSL_PORT>;
 							bus-width = <2>;
 							remote-endpoint = <&max96712_out2>;
 						};
