@@ -16,6 +16,9 @@
  */
 #include <dt-bindings/media/camera.h>
 
+#define _CONCAT(a, b) a ## b
+#define CONCAT(a, b) _CONCAT(a, b)
+
 #define GMSL_CAMERA_NUM	3
 #define GMSL_CAMERA_1
 #if (GMSL_CAMERA_NUM >= 2)
@@ -27,6 +30,9 @@
 #define GMSL_VC
 #define GMSL_PHY 0x2
 #define GMSL_PORT	0x0
+#define GMSL_MIPI_DT 0x2c
+#define GMSL_MIPI_DT_FS 0x0
+#define GMSL_MIPI_DT_FE 0x1
 
 / {
 	tegra-capture-vi  {
@@ -88,89 +94,17 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			channel@0 {
-				reg = <0>;
-
-				ports {
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-
-						csi_in0: endpoint@0 {
-							port-index = <GMSL_PORT>;
-							bus-width = <2>;
-							remote-endpoint = <&max96712_out0>;
-						};
-					};
-
-					port@1 {
-						reg = <1>;
-
-						csi_out0: endpoint@1 {
-							remote-endpoint = <&vi_in0>;
-						};
-					};
-				};
-			};
+			#define NVCSI_CH_INDEX 0
+			#include "tegra194-camera-gmsl-nvcsi-channel.dtsi"
 
 #if defined(GMSL_CAMERA_2)
-			channel@1 {
-				reg = <1>;
-
-				ports {
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-
-						csi_in1: endpoint@2 {
-							port-index = <GMSL_PORT>;
-							bus-width = <2>;
-							remote-endpoint = <&max96712_out1>;
-						};
-					};
-
-					port@1 {
-						reg = <1>;
-
-						csi_out1: endpoint@3 {
-							remote-endpoint = <&vi_in1>;
-						};
-					};
-				};
-			};
+			#define NVCSI_CH_INDEX 1
+			#include "tegra194-camera-gmsl-nvcsi-channel.dtsi"
 #endif
 
 #if defined(GMSL_CAMERA_3)
-			channel@2 {
-				reg = <2>;
-
-				ports {
-					#address-cells = <1>;
-					#size-cells = <0>;
-
-					port@0 {
-						reg = <0>;
-
-						csi_in2: endpoint@4 {
-							port-index = <GMSL_PORT>;
-							bus-width = <2>;
-							remote-endpoint = <&max96712_out2>;
-						};
-					};
-
-					port@1 {
-						reg = <1>;
-
-						csi_out2: endpoint@5 {
-							remote-endpoint = <&vi_in2>;
-						};
-					};
-				};
-			};
+			#define NVCSI_CH_INDEX 2
+			#include "tegra194-camera-gmsl-nvcsi-channel.dtsi"
 #endif
 		};
 	};
@@ -184,46 +118,10 @@
 					i2c@0 {
 						reg = <0>;
 
-						gmsl-serializer@40 {
-							compatible = "maxim,max96717";
-							reg = <0x40>;
+						#define SER_INDEX 0
+						#include "tegra194-camera-gmsl-serializer.dtsi"
 
-							max,pixel-mode;
-
-							channel@1 {
-								reg = <1>;
-
-								nv,skip-s-stream;
-								nv,skip-notifier;
-								nv,skip-link;
-
-								ports {
-									#address-cells = <1>;
-									#size-cells = <0>;
-
-									port@0 {
-										reg = <0>;
-
-										max96717_out0: endpoint {
-											remote-endpoint = <&max96712_in0>;
-											port-index = <0>;
-										};
-									};
-
-									port@1 {
-										reg = <1>;
-
-										max96717_in0: endpoint {
-											remote-endpoint = <&ox03a_out0>;
-										};
-									};
-								};
-							};
-						};
-
-						#define OX03A_VC_ID 0
-						#define OX03A_OUT_LABEL ox03a_out0
-						#define OX03A_IN_LABEL max96717_in0
+						#define OX03A_INDEX 0
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
 					};
 
@@ -231,46 +129,10 @@
 					i2c@1 {
 						reg = <1>;
 
-						gmsl-serializer@40 {
-							compatible = "maxim,max96717";
-							reg = <0x40>;
+						#define SER_INDEX 1
+						#include "tegra194-camera-gmsl-serializer.dtsi"
 
-							max,pixel-mode;
-
-							channel@1 {
-								reg = <1>;
-
-								nv,skip-s-stream;
-								nv,skip-notifier;
-								nv,skip-link;
-
-								ports {
-									#address-cells = <1>;
-									#size-cells = <0>;
-
-									port@0 {
-										reg = <0>;
-
-										max96717_out1: endpoint {
-											remote-endpoint = <&max96712_in1>;
-											port-index = <0>;
-										};
-									};
-
-									port@1 {
-										reg = <1>;
-
-										max96717_in1: endpoint {
-											remote-endpoint = <&ox03a_out1>;
-										};
-									};
-								};
-							};
-						};
-
-						#define OX03A_VC_ID 1
-						#define OX03A_OUT_LABEL ox03a_out1
-						#define OX03A_IN_LABEL max96717_in1
+						#define OX03A_INDEX 1
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
 					};
 #endif
@@ -279,164 +141,26 @@
 					i2c@2 {
 						reg = <2>;
 
-						gmsl-serializer@40 {
-							compatible = "maxim,max96717";
-							reg = <0x40>;
+						#define SER_INDEX 2
+						#include "tegra194-camera-gmsl-serializer.dtsi"
 
-							max,pixel-mode;
-
-							channel@1 {
-								reg = <1>;
-
-								nv,skip-s-stream;
-								nv,skip-notifier;
-								nv,skip-link;
-
-								ports {
-									#address-cells = <1>;
-									#size-cells = <0>;
-
-									port@0 {
-										reg = <0>;
-
-										max96717_out2: endpoint {
-											remote-endpoint = <&max96712_in2>;
-											port-index = <0>;
-										};
-									};
-
-									port@1 {
-										reg = <1>;
-
-										max96717_in2: endpoint {
-											remote-endpoint = <&ox03a_out2>;
-										};
-									};
-								};
-							};
-						};
-
-						#define OX03A_VC_ID 2
-						#define OX03A_OUT_LABEL ox03a_out2
-						#define OX03A_IN_LABEL max96717_in2
+						#define OX03A_INDEX 2
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
 					};
 #endif
 				};
 
-				channel@0 {
-					reg = <0>;
-
-					max,dest-phy = <GMSL_PHY>;
-					max,dt-vc-phy-remap =
-						<0x2c 0x00 0x2c 0x00 GMSL_PHY>,
-						<0x00 0x00 0x00 0x00 GMSL_PHY>,
-						<0x01 0x00 0x01 0x00 GMSL_PHY>;
-
-					nv,subdev-for-calls;
-
-					ports {
-						#address-cells = <1>;
-						#size-cells = <0>;
-
-						port@0 {
-							reg = <0>;
-
-							max96712_out0: endpoint {
-								remote-endpoint = <&csi_in0>;
-								port-index = <0>;
-								clock-lanes = <0>;
-								data-lanes = <1 2>;
-								clock-noncontinuous;
-							};
-						};
-
-						port@1 {
-							reg = <1>;
-
-							max96712_in0: endpoint {
-								remote-endpoint = <&max96717_out0>;
-							};
-						};
-					};
-				};
+				#define DESER_CH_INDEX 0
+				#include "tegra194-camera-gmsl-deserializer-channel.dtsi"
 
 #if defined(GMSL_CAMERA_2)
-				channel@1 {
-					reg = <1>;
-
-					max,dest-phy = <GMSL_PHY>;
-					max,dt-vc-phy-remap =
-						<0x2c 0x00 0x2c 0x01 GMSL_PHY>,
-						<0x00 0x00 0x00 0x01 GMSL_PHY>,
-						<0x01 0x00 0x01 0x01 GMSL_PHY>;
-
-					nv,subdev-for-calls;
-
-					ports {
-						#address-cells = <1>;
-						#size-cells = <0>;
-
-						port@0 {
-							reg = <0>;
-
-							max96712_out1: endpoint {
-								remote-endpoint = <&csi_in1>;
-								port-index = <0>;
-								clock-lanes = <0>;
-								data-lanes = <1 2>;
-								clock-noncontinuous;
-							};
-						};
-
-						port@1 {
-							reg = <1>;
-
-							max96712_in1: endpoint {
-								remote-endpoint = <&max96717_out1>;
-							};
-						};
-					};
-				};
+				#define DESER_CH_INDEX 1
+				#include "tegra194-camera-gmsl-deserializer-channel.dtsi"
 #endif
 
 #if defined(GMSL_CAMERA_3)
-				channel@2 {
-					reg = <2>;
-
-					max,dest-phy = <GMSL_PHY>;
-					max,dt-vc-phy-remap =
-						<0x2c 0x00 0x2c 0x02 GMSL_PHY>,
-						<0x00 0x00 0x00 0x02 GMSL_PHY>,
-						<0x01 0x00 0x01 0x02 GMSL_PHY>;
-
-					nv,subdev-for-calls;
-
-					ports {
-						#address-cells = <1>;
-						#size-cells = <0>;
-
-						port@0 {
-							reg = <0>;
-
-							max96712_out2: endpoint {
-								remote-endpoint = <&csi_in2>;
-								port-index = <0>;
-								clock-lanes = <0>;
-								data-lanes = <1 2>;
-								clock-noncontinuous;
-							};
-						};
-
-						port@1 {
-							reg = <1>;
-
-							max96712_in2: endpoint {
-								remote-endpoint = <&max96717_out2>;
-							};
-						};
-					};
-				};
+				#define DESER_CH_INDEX 2
+				#include "tegra194-camera-gmsl-deserializer-channel.dtsi"
 #endif
 			};
 	};
@@ -528,3 +252,6 @@
 		};
 	};
 };
+
+#undef CONCAT
+#undef _CONCAT

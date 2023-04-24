@@ -1,0 +1,76 @@
+#ifdef DESER_CH_INDEX
+#define DESER_CH_REG DESER_CH_INDEX
+#define DESER_CH_VC_ID DESER_CH_INDEX
+#define DESER_CH_OUT_LABEL CONCAT(max96712_out, DESER_CH_INDEX)
+#define DESER_CH_IN_LABEL CONCAT(max96712_in, DESER_CH_INDEX)
+#define DESER_CH_OUT_REMOTE_LABEL CONCAT(csi_in, DESER_CH_INDEX)
+#define DESER_CH_IN_REMOTE_LABEL CONCAT(max96717_out, DESER_CH_INDEX)
+#endif
+
+#if !defined(DESER_CH_REG)
+#error
+#endif
+
+#if !defined(DESER_CH_VC_ID)
+#error
+#endif
+
+#if !defined(DESER_CH_OUT_LABEL)
+#error
+#endif
+
+#if !defined(DESER_CH_IN_LABEL)
+#error
+#endif
+
+#if !defined(DESER_CH_OUT_REMOTE_LABEL)
+#error
+#endif
+
+#if !defined(DESER_CH_IN_REMOTE_LABEL)
+#error
+#endif
+
+channel@DESER_CH_REG {
+	reg = <DESER_CH_REG>;
+
+	max,dest-phy = <GMSL_PHY>;
+	max,dt-vc-phy-remap =
+		<GMSL_MIPI_DT 0x00 GMSL_MIPI_DT DESER_CH_VC_ID GMSL_PHY>,
+		<GMSL_MIPI_DT_FS 0x00 GMSL_MIPI_DT_FS DESER_CH_VC_ID GMSL_PHY>,
+		<GMSL_MIPI_DT_FE 0x00 GMSL_MIPI_DT_FE DESER_CH_VC_ID GMSL_PHY>;
+
+	nv,subdev-for-calls;
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+
+			DESER_CH_OUT_LABEL: endpoint {
+				remote-endpoint = <&DESER_CH_OUT_REMOTE_LABEL>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+				clock-noncontinuous;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+
+			DESER_CH_IN_LABEL: endpoint {
+				remote-endpoint = <&DESER_CH_IN_REMOTE_LABEL>;
+			};
+		};
+	};
+};
+
+#undef DESER_CH_INDEX
+#undef DESER_CH_REG
+#undef DESER_CH_VC_ID
+#undef DESER_CH_OUT_LABEL
+#undef DESER_CH_IN_LABEL
+#undef DESER_CH_OUT_REMOTE_LABEL
+#undef DESER_CH_IN_REMOTE_LABEL
