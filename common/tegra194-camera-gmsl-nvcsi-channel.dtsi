@@ -43,9 +43,11 @@ channel@NVCSI_CH_REG {
 			reg = <0>;
 
 			NVCSI_CH_IN_LABEL: endpoint@0 {
+				remote-endpoint = <&NVCSI_CH_IN_REMOTE_LABEL>;
 				port-index = <GMSL_PORT>;
 				bus-width = <2>;
-				remote-endpoint = <&NVCSI_CH_IN_REMOTE_LABEL>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
 			};
 		};
 
