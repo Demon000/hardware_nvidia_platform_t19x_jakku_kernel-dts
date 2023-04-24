@@ -4,10 +4,6 @@
 #error
 #endif
 
-#if !defined(OX03A_VIDEO_NODE)
-#error
-#endif
-
 #if !defined(OX03A_OUT_LABEL)
 #error
 #endif
@@ -23,8 +19,6 @@ ox03a@36 {
 	nv,skip-s-stream;
 	nv,skip-notifier;
 	nv,skip-link;
-
-	devnode = OX03A_VIDEO_NODE;
 
 	physical_w = "3.680";
 	physical_h = "2.760";
@@ -93,6 +87,5 @@ ox03a@36 {
 };
 
 #undef OX03A_VC_ID
-#undef OX03A_VIDEO_NODE
 #undef OX03A_OUT_LABEL
 #undef OX03A_IN_LABEL

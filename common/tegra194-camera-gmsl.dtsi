@@ -221,7 +221,6 @@
 						};
 
 						#define OX03A_VC_ID 0
-						#define OX03A_VIDEO_NODE "video0"
 						#define OX03A_OUT_LABEL ox03a_out0
 						#define OX03A_IN_LABEL max96717_in0
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
@@ -269,7 +268,6 @@
 						};
 
 						#define OX03A_VC_ID 1
-						#define OX03A_VIDEO_NODE "video1"
 						#define OX03A_OUT_LABEL ox03a_out1
 						#define OX03A_IN_LABEL max96717_in1
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
@@ -318,7 +316,6 @@
 						};
 
 						#define OX03A_VC_ID 2
-						#define OX03A_VIDEO_NODE "video2"
 						#define OX03A_OUT_LABEL ox03a_out2
 						#define OX03A_IN_LABEL max96717_in2
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
