@@ -77,7 +77,6 @@ ox03a@36 {
 #if defined(GMSL_VC)
 				vc-id = <OX03A_VC_ID>;
 #endif
-				port-index = <0>;
 				bus-width = <4>;
 				data-lanes = <1 2 3 4>;
 				remote-endpoint = <&OX03A_IN_LABEL>;
