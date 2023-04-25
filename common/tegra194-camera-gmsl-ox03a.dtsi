@@ -1,13 +1,8 @@
 #include <dt-bindings/media/camera.h>
 
 #ifdef OX03A_INDEX
-#define OX03A_PORT_INDEX OX03A_INDEX
 #define OX03A_OUT_LABEL CONCAT(ox03a_out, OX03A_INDEX)
 #define OX03A_IN_LABEL CONCAT(max96717_in, OX03A_INDEX)
-#endif
-
-#if !defined(OX03A_PORT_INDEX)
-#error
 #endif
 
 #if !defined(OX03A_OUT_LABEL)
@@ -80,7 +75,7 @@ ox03a@36 {
 		port@0 {
 			reg = <0>;
 			OX03A_OUT_LABEL: endpoint {
-				port-index = <OX03A_PORT_INDEX>;
+				port-index = <0>;
 				bus-width = <4>;
 				data-lanes = <1 2 3 4>;
 				remote-endpoint = <&OX03A_IN_LABEL>;
@@ -90,6 +85,5 @@ ox03a@36 {
 };
 
 #undef OX03A_INDEX
-#undef OX03A_PORT_INDEX
 #undef OX03A_OUT_LABEL
 #undef OX03A_IN_LABEL
