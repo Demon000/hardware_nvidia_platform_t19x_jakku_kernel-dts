@@ -34,6 +34,8 @@ gmsl-serializer@40 {
 		nv,skip-notifier;
 		nv,skip-link;
 
+		max,stream-id = <0>;
+
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
