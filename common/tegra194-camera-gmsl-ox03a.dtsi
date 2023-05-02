@@ -1,8 +1,13 @@
 #include <dt-bindings/media/camera.h>
 
 #ifdef OX03A_INDEX
+#define OX03A_VC_ID	OX03A_INDEX
 #define OX03A_OUT_LABEL CONCAT(ox03a_out, OX03A_INDEX)
 #define OX03A_IN_LABEL CONCAT(max96717_in, OX03A_INDEX)
+#endif
+
+#if !defined(OX03A_VC_ID)
+#error
 #endif
 
 #if !defined(OX03A_OUT_LABEL)
@@ -32,6 +37,7 @@ ox03a@36 {
 		mclk_khz = "25000";
 		num_lanes = "2";
 		tegra_sinterface = "serial_a";
+		vc_id = STRINGIFY(OX03A_VC_ID);
 		phy_mode = "DPHY";
 		discontinuous_clk = "no";
 		dpcm_enable = "false";
@@ -85,5 +91,6 @@ ox03a@36 {
 };
 
 #undef OX03A_INDEX
+#undef OX03A_VC_ID
 #undef OX03A_OUT_LABEL
 #undef OX03A_IN_LABEL
