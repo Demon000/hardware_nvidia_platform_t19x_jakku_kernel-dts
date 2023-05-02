@@ -19,7 +19,7 @@
 #define _CONCAT(a, b) a ## b
 #define CONCAT(a, b) _CONCAT(a, b)
 
-#define GMSL_CAMERA_NUM	3
+#define GMSL_CAMERA_NUM	4
 #define GMSL_CAMERA_1
 #if (GMSL_CAMERA_NUM >= 2)
 #define GMSL_CAMERA_2
@@ -27,6 +27,10 @@
 #if (GMSL_CAMERA_NUM >= 3)
 #define GMSL_CAMERA_3
 #endif
+#if (GMSL_CAMERA_NUM >= 4)
+#define GMSL_CAMERA_4
+#endif
+#define GMSL_CAMERA_4_COPY_3
 #define GMSL_VC
 #define GMSL_PHY 0x2
 #define GMSL_PORT	0x0
@@ -84,6 +88,21 @@
 				};
 			};
 #endif
+
+#if defined(GMSL_CAMERA_4)
+			port@3 {
+				reg = <3>;
+
+				vi_in3: endpoint {
+#if defined(GMSL_VC)
+					vc-id = <3>;
+#endif
+					port-index = <GMSL_PORT>;
+					bus-width = <2>;
+					remote-endpoint = <&csi_out3>;
+				};
+			};
+#endif
 		};
 	};
 
@@ -104,6 +123,11 @@
 
 #if defined(GMSL_CAMERA_3)
 			#define NVCSI_CH_INDEX 2
+			#include "tegra194-camera-gmsl-nvcsi-channel.dtsi"
+#endif
+
+#if defined(GMSL_CAMERA_4)
+			#define NVCSI_CH_INDEX 3
 			#include "tegra194-camera-gmsl-nvcsi-channel.dtsi"
 #endif
 		};
@@ -160,6 +184,21 @@
 
 #if defined(GMSL_CAMERA_3)
 				#define DESER_CH_INDEX 2
+				#include "tegra194-camera-gmsl-deserializer-channel.dtsi"
+#endif
+
+#if defined(GMSL_CAMERA_4)
+#if defined(GMSL_CAMERA_4_COPY_3)
+				#define DESER_CH_REG 3
+				#define DESER_CH_VC_ID 3
+				#define DESER_CH_GMSL_LINK 2
+				#define DESER_CH_OUT_LABEL CONCAT(max96712_out, 3)
+				#define DESER_CH_IN_LABEL CONCAT(max96712_in, 3)
+				#define DESER_CH_OUT_REMOTE_LABEL CONCAT(csi_in, 3)
+				#define DESER_CH_IN_REMOTE_LABEL CONCAT(max96717_out, 2)
+#else
+				#define DESER_CH_INDEX 3
+#endif
 				#include "tegra194-camera-gmsl-deserializer-channel.dtsi"
 #endif
 			};
