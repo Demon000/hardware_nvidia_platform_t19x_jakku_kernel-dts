@@ -253,8 +253,8 @@
 		 */
 		modules {
 			module0 {
-				badge = "cam0";
-				position = "front";
+				badge = "jakku_front_ox03a1";
+				position = "bottom";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
@@ -265,8 +265,8 @@
 
 #if defined(GMSL_CAMERA_2)
 			module1 {
-				badge = "cam1";
-				position = "front";
+				badge = "jakku_front_ox03a2";
+				position = "top";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
@@ -278,8 +278,8 @@
 
 #if defined(GMSL_CAMERA_3)
 			module2 {
-				badge = "cam2";
-				position = "front";
+				badge = "jakku_front_ox03a3";
+				position = "center";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
