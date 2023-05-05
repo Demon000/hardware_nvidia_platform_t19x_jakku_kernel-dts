@@ -22,7 +22,7 @@
 #define _STRINGIFY(a) # a
 #define STRINGIFY(a) _STRINGIFY(a)
 
-#define GMSL_CAMERA_NUM	3
+#define GMSL_CAMERA_NUM	4
 #define GMSL_CAMERA_1
 #if (GMSL_CAMERA_NUM >= 2)
 #define GMSL_CAMERA_2
@@ -33,7 +33,6 @@
 #if (GMSL_CAMERA_NUM >= 4)
 #define GMSL_CAMERA_4
 #endif
-#define GMSL_CAMERA_4_COPY_3
 #define GMSL_VC
 #define GMSL_PHY 0x2
 #define GMSL_PORT	0x0
@@ -175,6 +174,18 @@
 						#include "tegra194-camera-gmsl-ox03a.dtsi"
 					};
 #endif
+
+#if defined(GMSL_CAMERA_4)
+					i2c@3 {
+						reg = <3>;
+
+						#define SER_INDEX 3
+						#include "tegra194-camera-gmsl-serializer.dtsi"
+
+						#define OX03A_INDEX 3
+						#include "tegra194-camera-gmsl-ox03a.dtsi"
+					};
+#endif
 				};
 
 				#define DESER_CH_INDEX 0
@@ -191,17 +202,7 @@
 #endif
 
 #if defined(GMSL_CAMERA_4)
-#if defined(GMSL_CAMERA_4_COPY_3)
-				#define DESER_CH_REG 3
-				#define DESER_CH_VC_ID 3
-				#define DESER_CH_GMSL_LINK 2
-				#define DESER_CH_OUT_LABEL CONCAT(max96712_out, 3)
-				#define DESER_CH_IN_LABEL CONCAT(max96712_in, 3)
-				#define DESER_CH_OUT_REMOTE_LABEL CONCAT(csi_in, 3)
-				#define DESER_CH_IN_REMOTE_LABEL CONCAT(max96717_out, 2)
-#else
 				#define DESER_CH_INDEX 3
-#endif
 				#include "tegra194-camera-gmsl-deserializer-channel.dtsi"
 #endif
 			};
@@ -257,7 +258,7 @@
 		modules {
 			module0 {
 				badge = "jakku_front_ox03a1";
-				position = "bottom";
+				position = "topleft";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
@@ -269,7 +270,7 @@
 #if defined(GMSL_CAMERA_2)
 			module1 {
 				badge = "jakku_front_ox03a2";
-				position = "top";
+				position = "topright";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
@@ -282,12 +283,25 @@
 #if defined(GMSL_CAMERA_3)
 			module2 {
 				badge = "jakku_front_ox03a3";
-				position = "center";
+				position = "bottomleft";
 				orientation = "1";
 				drivernode0 {
 					pcl_id = "v4l2_sensor";
 					devname = "ox03a 11-0036";
 					proc-device-tree = "/proc/device-tree/i2c@c240000/gmsl-deserializer@27/i2c-mux/i2c@2/ox03a@36";
+				};
+			};
+#endif
+
+#if defined(GMSL_CAMERA_4)
+			module3 {
+				badge = "jakku_front_ox03a4";
+				position = "bottomright";
+				orientation = "1";
+				drivernode0 {
+					pcl_id = "v4l2_sensor";
+					devname = "ox03a 12-0036";
+					proc-device-tree = "/proc/device-tree/i2c@c240000/gmsl-deserializer@27/i2c-mux/i2c@3/ox03a@36";
 				};
 			};
 #endif
