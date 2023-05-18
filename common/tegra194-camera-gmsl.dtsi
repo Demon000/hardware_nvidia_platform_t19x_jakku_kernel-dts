@@ -137,7 +137,7 @@
 
 	i2c@c240000 {
 			gmsl-deserializer@27 {
-				compatible = "maxim,max96712";
+				compatible = "maxim,max96724";
 				reg = <0x27>;
 
 				i2c-mux {
