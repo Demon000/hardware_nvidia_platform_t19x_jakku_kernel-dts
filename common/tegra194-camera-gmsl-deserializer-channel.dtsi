@@ -36,7 +36,7 @@ pipe@DESER_CH_REG {
 
 	max,dest-phy = <GMSL_PHY>;
 	max,src-stream-id = <0>;
-	max,src-gmsl-link = <DESER_CH_REG>;
+	max,src-link = <DESER_CH_REG>;
 };
 
 channel@DESER_CH_REG {
