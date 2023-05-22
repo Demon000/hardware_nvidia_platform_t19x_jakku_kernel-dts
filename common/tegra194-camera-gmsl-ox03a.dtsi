@@ -1,5 +1,9 @@
 #include <dt-bindings/media/camera.h>
 
+#ifndef OX03A_HEX_REG
+#define OX03A_HEX_REG 0x36
+#endif
+
 #ifdef OX03A_INDEX
 #define OX03A_VC_ID	OX03A_INDEX
 #define OX03A_OUT_LABEL CONCAT(ox03a_out, OX03A_INDEX)
@@ -18,9 +22,9 @@
 #error
 #endif
 
-ox03a@36 {
+ox03a@OX03A_HEX_REG {
 	compatible = "ov,ox03a";
-	reg = <0x36>;
+	reg = <OX03A_HEX_REG>;
 
 	nv,skip-s-stream;
 	nv,skip-notifier;
@@ -90,6 +94,7 @@ ox03a@36 {
 	};
 };
 
+#undef OX03A_HEX_REG
 #undef OX03A_INDEX
 #undef OX03A_VC_ID
 #undef OX03A_OUT_LABEL

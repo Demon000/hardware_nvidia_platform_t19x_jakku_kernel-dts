@@ -31,6 +31,14 @@
 #error
 #endif
 
+link@DESER_CH_REG {
+	reg = <DESER_CH_REG>;
+
+#if defined(DESER_CH_SRC_SER_REG) && defined(DESER_CH_DST_SER_REG)
+	max,ser-addr-translate = <DESER_CH_SRC_SER_REG DESER_CH_DST_SER_REG>;
+#endif
+};
+
 pipe@DESER_CH_REG {
 	reg = <DESER_CH_REG>;
 
@@ -75,6 +83,8 @@ channel@DESER_CH_REG {
 	};
 };
 
+#undef DESER_CH_SRC_SER_REG
+#undef DESER_CH_DST_SER_REG
 #undef DESER_CH_INDEX
 #undef DESER_CH_REG
 #undef DESER_CH_VC_ID

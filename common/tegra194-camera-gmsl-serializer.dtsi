@@ -1,3 +1,7 @@
+#ifndef SER_HEX_REG
+#define SER_HEX_REG 0x40
+#endif
+
 #ifdef SER_INDEX
 #define SER_OUT_LABEL CONCAT(max96717_out, SER_INDEX)
 #define SER_IN_LABEL CONCAT(max96717_in, SER_INDEX)
@@ -21,9 +25,9 @@
 #error
 #endif
 
-gmsl-serializer@40 {
+gmsl-serializer@SER_HEX_REG {
 	compatible = "maxim,max96717";
-	reg = <0x40>;
+	reg = <SER_HEX_REG>;
 
 	max,pixel-mode;
 
@@ -59,6 +63,7 @@ gmsl-serializer@40 {
 	};
 };
 
+#undef SER_HEX_REG
 #undef SER_INDEX
 #undef SER_OUT_LABEL
 #undef SER_IN_LABEL
