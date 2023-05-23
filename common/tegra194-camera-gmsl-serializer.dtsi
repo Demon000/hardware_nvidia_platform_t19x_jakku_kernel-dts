@@ -3,8 +3,8 @@
 #endif
 
 #ifdef SER_INDEX
-#define SER_OUT_LABEL CONCAT(max96717_out, SER_INDEX)
-#define SER_IN_LABEL CONCAT(max96717_in, SER_INDEX)
+#define SER_OUT_LABEL CONCAT(ser_out, SER_INDEX)
+#define SER_IN_LABEL CONCAT(ser_in, SER_INDEX)
 #define SER_OUT_REMOTE_LABEL CONCAT(deser_in, SER_INDEX)
 #define SER_IN_REMOTE_LABEL CONCAT(ox03a_out, SER_INDEX)
 #endif
