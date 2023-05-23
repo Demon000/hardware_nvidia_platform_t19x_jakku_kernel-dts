@@ -1,3 +1,7 @@
+#ifndef SER_COMPAT
+#define SER_COMPAT "maxim,max96717"
+#endif
+
 #ifndef SER_HEX_REG
 #define SER_HEX_REG 0x40
 #endif
@@ -26,7 +30,7 @@
 #endif
 
 gmsl-serializer@SER_HEX_REG {
-	compatible = "maxim,max96717";
+	compatible = SER_COMPAT;
 	reg = <SER_HEX_REG>;
 
 	channel@1 {
@@ -61,6 +65,7 @@ gmsl-serializer@SER_HEX_REG {
 	};
 };
 
+#undef SER_COMPAT
 #undef SER_HEX_REG
 #undef SER_INDEX
 #undef SER_OUT_LABEL
