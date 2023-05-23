@@ -37,6 +37,9 @@ link@DESER_CH_REG {
 #if defined(DESER_CH_SRC_SER_REG) && defined(DESER_CH_DST_SER_REG)
 	max,ser-addr-translate = <DESER_CH_SRC_SER_REG DESER_CH_DST_SER_REG>;
 #endif
+#if defined(DESER_CH_SRC_I2C_REG) && defined(DESER_CH_DST_I2C_REG)
+	max,i2c-addr-translate = <DESER_CH_SRC_I2C_REG DESER_CH_DST_I2C_REG>;
+#endif
 };
 
 pipe@DESER_CH_REG {
@@ -85,6 +88,8 @@ channel@DESER_CH_REG {
 
 #undef DESER_CH_SRC_SER_REG
 #undef DESER_CH_DST_SER_REG
+#undef DESER_CH_SRC_I2C_REG
+#undef DESER_CH_DST_I2C_REG
 #undef DESER_CH_INDEX
 #undef DESER_CH_REG
 #undef DESER_CH_VC_ID
