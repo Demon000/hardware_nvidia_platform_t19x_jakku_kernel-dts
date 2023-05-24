@@ -56,7 +56,6 @@ channel@DESER_CH_REG {
 	max,pipe-id = <DESER_CH_REG>;
 	max,src-vc-id = <0x00>;
 	max,dst-vc-id = <DESER_CH_VC_ID>;
-	max,dest-phy = <GMSL_PHY>;
 	max,dt-vc-phy-remap =
 		<GMSL_MIPI_DT 0x00 GMSL_MIPI_DT DESER_CH_VC_ID GMSL_PHY>,
 		<GMSL_MIPI_DT_FS 0x00 GMSL_MIPI_DT_FS DESER_CH_VC_ID GMSL_PHY>,
