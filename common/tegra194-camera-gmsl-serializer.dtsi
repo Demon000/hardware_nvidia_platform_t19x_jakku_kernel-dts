@@ -33,14 +33,14 @@ gmsl-serializer@SER_HEX_REG {
 	compatible = SER_COMPAT;
 	reg = <SER_HEX_REG>;
 
-	channel@1 {
-		reg = <1>;
+	channel@0 {
+		reg = <0>;
 
 		nv,skip-s-stream;
 		nv,skip-notifier;
 		nv,skip-link;
 
-		max,stream-id = <0>;
+		max,pipe-id = <0>;
 
 		ports {
 			#address-cells = <1>;
