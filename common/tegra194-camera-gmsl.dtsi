@@ -23,6 +23,16 @@
 #define STRINGIFY(a) _STRINGIFY(a)
 
 #define GMSL_CAMERA_NUM	3
+
+#define GMSL_DESER_MAX9296A
+
+#ifdef GMSL_DESER_MAX9296A
+#if GMSL_CAMERA_NUM > 2
+#undef GMSL_CAMERA_NUM
+#define GMSL_CAMERA_NUM 2
+#endif
+#endif
+
 #define GMSL_CAMERA_1
 #if (GMSL_CAMERA_NUM >= 2)
 #define GMSL_CAMERA_2
@@ -34,7 +44,12 @@
 #define GMSL_CAMERA_4
 #endif
 #define GMSL_VC
+
+#ifdef GMSL_DESER_MAX9296A
+#define GMSL_PHY 0x1
+#else
 #define GMSL_PHY 0x2
+#endif
 #define GMSL_PORT	0x0
 #define GMSL_MIPI_DT 0x2c
 #define GMSL_MIPI_DT_FS 0x0
@@ -140,9 +155,21 @@
 	};
 
 	i2c@c240000 {
+			#ifdef GMSL_DESER_MAX9296cA
 			gmsl-deserializer@27 {
+			#else
+			gmsl-deserializer@48 {
+			#endif
+				#ifdef GMSL_DESER_MAX9296A
+				compatible = "maxim,max9296a";
+				#else
 				compatible = "maxim,max96724";
+				#endif
+				#ifdef GMSL_DESER_MAX9296cA
 				reg = <0x27>;
+				#else
+				reg = <0x48>;
+				#endif
 
 				i2c-mux {
 					i2c@0 {
