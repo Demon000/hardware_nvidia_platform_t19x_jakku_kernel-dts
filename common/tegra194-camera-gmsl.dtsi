@@ -42,6 +42,7 @@
 
 #define GMSL_CHANGE_I2C_ADDR
 #define GMSL_CAMERA_0_MAX9295A
+#define GMSL_CAMERA_1_MAX9295A
 
 / {
 	tegra-capture-vi  {
@@ -170,6 +171,9 @@
 						#define SER_INDEX 1
 						#ifdef GMSL_CHANGE_I2C_ADDR
 						#define SER_HEX_REG 0x42
+						#endif
+						#ifdef GMSL_CAMERA_1_MAX9295A
+						#define SER_COMPAT "maxim,max9295a"
 						#endif
 						#include "tegra194-camera-gmsl-serializer.dtsi"
 
