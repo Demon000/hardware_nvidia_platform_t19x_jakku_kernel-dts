@@ -46,8 +46,6 @@ gmsl-serializer@SER_HEX_REG {
 		nv,skip-notifier;
 		nv,skip-link;
 
-		max,pipe-id = <0>;
-
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
