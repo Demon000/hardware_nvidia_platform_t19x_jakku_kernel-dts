@@ -47,7 +47,6 @@ pipe@DESER_CH_REG {
 
 	max,phy-id = <GMSL_PHY>;
 	max,stream-id = <0>;
-	max,link-id = <DESER_CH_REG>;
 };
 
 channel@DESER_CH_REG {
