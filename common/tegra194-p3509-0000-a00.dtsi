@@ -18,13 +18,17 @@
 #include "tegra194-super-module-e2614-p3509.dtsi"
 
 #define GMSL
+#define GMSL_USE_I2C_BUS_1
+// #define GMSL_USE_I2C_MUX
 
 #if defined(GMSL)
+#if defined(GMSL_USE_I2C_MUX)
 &cam_i2c {
 	clock-frequency = <100000>;
 };
 
 #include "tegra194-camera-gmsl.dtsi"
+#endif
 #include "../../../../gmsl/kernel-dts/gmsl.dtsi"
 #else
 #include "tegra194-camera-jakku-rbpcv3-imx477.dtsi"
