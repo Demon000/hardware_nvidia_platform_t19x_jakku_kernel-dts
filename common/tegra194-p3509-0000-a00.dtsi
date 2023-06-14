@@ -20,6 +20,8 @@
 #define GMSL
 #define GMSL_USE_I2C_BUS_1
 // #define GMSL_USE_I2C_MUX
+#define GMSL_SER_0_MAX9295A
+#define GMSL_SER_1_MAX9295A
 
 #if defined(GMSL)
 #if defined(GMSL_USE_I2C_MUX)
