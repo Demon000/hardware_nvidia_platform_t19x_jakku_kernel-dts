@@ -22,6 +22,9 @@
 #define GMSL_USE_I2C_MUX_BUS
 // #define GMSL_USE_I2C_MUX
 
+// #define GMSL_USE_PORT_1
+// #define GMSL_USE_PORT_2
+
 #define GMSL_SER_0_MAX9295A
 #define GMSL_SER_1_MAX9295A
 
@@ -42,6 +45,19 @@
 #else
 #include "tegra194-camera-jakku-rbpcv3-imx477.dtsi"
 #include "tegra194-camera-jakku-rbpcv2-imx219.dtsi"
+#endif
+
+#if !defined(GMSL_USE_I2C_MUX) && defined(GMSL_USE_PORT_2)
+#define CAM_I2C_MUX 	TEGRA194_AON_GPIO(CC, 3)
+
+&tegra_aon_gpio {
+	cam_i2cmux-high {
+		gpio-hog;
+		output-high;
+		gpios = <CAM_I2C_MUX 0>;
+		label = "cam_i2cmux-high";
+	};
+};
 #endif
 
 / {
