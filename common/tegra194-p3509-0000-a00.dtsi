@@ -20,18 +20,25 @@
 #define GMSL
 // #define GMSL_USE_I2C_BUS_2
 #define GMSL_USE_I2C_MUX_BUS
+// #define GMSL_USE_I2C_MUX
+
 #define GMSL_SER_0_MAX9295A
 #define GMSL_SER_1_MAX9295A
 
 #if defined(GMSL)
-#if defined(GMSL_USE_I2C_MUX_BUS)
+
+#if defined(GMSL_USE_I2C_MUX_BUS) || defined(GMSL_USE_I2C_MUX)
 &cam_i2c {
 	clock-frequency = <100000>;
 };
+#endif
 
+#if defined(GMSL_USE_I2C_MUX)
 #include "tegra194-camera-gmsl.dtsi"
 #endif
+
 #include "../../../../gmsl/kernel-dts/gmsl.dtsi"
+
 #else
 #include "tegra194-camera-jakku-rbpcv3-imx477.dtsi"
 #include "tegra194-camera-jakku-rbpcv2-imx219.dtsi"
