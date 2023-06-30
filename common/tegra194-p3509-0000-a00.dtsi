@@ -18,8 +18,8 @@
 #include "tegra194-super-module-e2614-p3509.dtsi"
 
 #define GMSL
-#define GMSL_USE_I2C_BUS_2
-// #define GMSL_USE_I2C_MUX_BUS
+// #define GMSL_USE_I2C_BUS_2
+#define GMSL_USE_I2C_MUX_BUS
 #define GMSL_SER_0_MAX9295A
 #define GMSL_SER_1_MAX9295A
 
