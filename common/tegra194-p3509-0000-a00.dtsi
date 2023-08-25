@@ -18,46 +18,36 @@
 #include "tegra194-super-module-e2614-p3509.dtsi"
 
 #define GMSL
-// #define GMSL_USE_I2C_BUS_2
-#define GMSL_USE_I2C_MUX_BUS
-// #define GMSL_USE_I2C_MUX
 
-// #define GMSL_USE_PORT_1
-// #define GMSL_USE_PORT_2
+#define GMSL_TEGRA_PLATFORM
+#define GMSL_TEGRA_PORT			0
 
+#define GMSL_DESER_I2C_LABEL		cam_i2c
+#define GMSL_DESER_PHY_NUM_LANES	2
+#define GMSL_DESER_PHY_ALT_MEM_MAP12
+
+#define GMSL_CAMERA_NUM			4
+#define GMSL_DESER_MAX96724
 #define GMSL_SER_0_MAX9295A
 #define GMSL_SER_1_MAX9295A
+#define GMSL_SER_2_MAX96717
+#define GMSL_SER_3_MAX96717
+#define GMSL_CAM_0_TEGRA_OX03A
+#define GMSL_CAM_1_TEGRA_OX03A
+#define GMSL_CAM_2_TEGRA_OX03A
+#define GMSL_CAM_3_TEGRA_OX03A
 
 #if defined(GMSL)
 
-#if defined(GMSL_USE_I2C_MUX_BUS) || defined(GMSL_USE_I2C_MUX)
-&cam_i2c {
+&GMSL_DESER_I2C_LABEL {
 	clock-frequency = <100000>;
 };
-#endif
-
-#if defined(GMSL_USE_I2C_MUX)
-#include "tegra194-camera-gmsl.dtsi"
-#endif
 
 #include "../../../../gmsl/kernel-dts/gmsl.dtsi"
 
 #else
 #include "tegra194-camera-jakku-rbpcv3-imx477.dtsi"
 #include "tegra194-camera-jakku-rbpcv2-imx219.dtsi"
-#endif
-
-#if !defined(GMSL_USE_I2C_MUX) && defined(GMSL_USE_PORT_2)
-#define CAM_I2C_MUX 	TEGRA194_AON_GPIO(CC, 3)
-
-&tegra_aon_gpio {
-	cam_i2cmux-high {
-		gpio-hog;
-		output-high;
-		gpios = <CAM_I2C_MUX 0>;
-		label = "cam_i2cmux-high";
-	};
-};
 #endif
 
 / {
