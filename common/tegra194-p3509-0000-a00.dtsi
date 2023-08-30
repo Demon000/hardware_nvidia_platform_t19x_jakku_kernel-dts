@@ -43,7 +43,7 @@
 	clock-frequency = <100000>;
 };
 
-#include "../../../../gmsl/kernel-dts/gmsl.dtsi"
+#include "../../../../../../kernel/kernel-5.10/arch/arm64/boot/dts/gmsl/gmsl.dtsi"
 
 #else
 #include "tegra194-camera-jakku-rbpcv3-imx477.dtsi"
